@@ -26,7 +26,7 @@ export default async function BooksPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">내 독서 목록</h1>
-        <Button size="sm" render={<Link href="/search" />}>+ 책 추가</Button>
+        <Button size="sm" nativeButton={false} render={<Link href="/search" />}>+ 책 추가</Button>
       </div>
 
       <Tabs defaultValue="reading">

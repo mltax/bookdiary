@@ -20,16 +20,16 @@ export default async function MainLayout({
             📚 책일기
           </Link>
           <nav className="flex items-center gap-1">
-            <Button variant="ghost" size="sm" render={<Link href="/search" />}>
+            <Button variant="ghost" size="sm" nativeButton={false} render={<Link href="/search" />}>
               검색
             </Button>
-            <Button variant="ghost" size="sm" render={<Link href="/books" />}>
+            <Button variant="ghost" size="sm" nativeButton={false} render={<Link href="/books" />}>
               내 책
             </Button>
-            <Button variant="ghost" size="sm" render={<Link href="/family" />}>
+            <Button variant="ghost" size="sm" nativeButton={false} render={<Link href="/family" />}>
               가족
             </Button>
-            <Button variant="ghost" size="sm" render={<Link href="/profile" />}>
+            <Button variant="ghost" size="sm" nativeButton={false} render={<Link href="/profile" />}>
               프로필
             </Button>
           </nav>

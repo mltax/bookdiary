@@ -103,7 +103,7 @@ export default async function RecordDetailPage({ params }: Props) {
 
       {/* 수정 버튼 (본인만) */}
       {isOwner && (
-        <Button variant="outline" className="w-full" render={<Link href={`/books/${id}/edit`} />}>
+        <Button variant="outline" className="w-full" nativeButton={false} render={<Link href={`/books/${id}/edit`} />}>
           기록 수정
         </Button>
       )}
