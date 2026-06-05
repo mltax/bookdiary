@@ -1,6 +1,7 @@
 'use client'
-import { EMOTION_TAGS, type EmotionTag } from '@/lib/constants'
+import { EMOTION_TAGS, EMOTION_COLORS, type EmotionTag } from '@/lib/constants'
 import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 
 interface Props {
   selected: string[]
@@ -21,8 +22,13 @@ export function EmotionTagSelector({ selected, onChange }: Props) {
       {EMOTION_TAGS.map(tag => (
         <Badge
           key={tag}
-          variant={selected.includes(tag) ? 'default' : 'outline'}
-          className="cursor-pointer select-none"
+          variant="outline"
+          className={cn(
+            'cursor-pointer select-none border transition-colors',
+            selected.includes(tag)
+              ? EMOTION_COLORS[tag]
+              : 'hover:bg-muted hover:text-muted-foreground'
+          )}
           onClick={() => toggle(tag)}
         >
           {tag}

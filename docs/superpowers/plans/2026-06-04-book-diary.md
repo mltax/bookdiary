@@ -53,7 +53,7 @@
 - Create: `package.json`, `tsconfig.json`, `tailwind.config.ts`, `next.config.ts`
 - Create: `.env.local.example`
 
-- [ ] **Step 1: Next.js 프로젝트 생성**
+- [x] **Step 1: Next.js 프로젝트 생성**
 
 ```bash
 npx create-next-app@latest . \
@@ -65,27 +65,27 @@ npx create-next-app@latest . \
   --import-alias="@/*"
 ```
 
-- [ ] **Step 2: 의존성 설치**
+- [x] **Step 2: 의존성 설치**
 
 ```bash
 npm install @supabase/supabase-js @supabase/ssr
 npm install -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/jest-dom
 ```
 
-- [ ] **Step 3: shadcn/ui 초기화**
+- [x] **Step 3: shadcn/ui 초기화**
 
 ```bash
 npx shadcn@latest init
 # 프롬프트: Default style → Default, Base color → Slate, CSS variables → Yes
 ```
 
-- [ ] **Step 4: 필요한 shadcn 컴포넌트 설치**
+- [x] **Step 4: 필요한 shadcn 컴포넌트 설치**
 
 ```bash
 npx shadcn@latest add button card input label badge tabs avatar separator
 ```
 
-- [ ] **Step 5: `.env.local` 파일 생성**
+- [x] **Step 5: `.env.local` 파일 생성**
 
 ```bash
 # .env.local
@@ -94,7 +94,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 KAKAO_REST_API_KEY=your_kakao_rest_api_key
 ```
 
-- [ ] **Step 6: `.env.local.example` 작성**
+- [x] **Step 6: `.env.local.example` 작성**
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=
@@ -102,7 +102,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 KAKAO_REST_API_KEY=
 ```
 
-- [ ] **Step 7: vitest 설정 추가**
+- [x] **Step 7: vitest 설정 추가**
 
 `vitest.config.ts` 생성:
 
@@ -129,7 +129,7 @@ export default defineConfig({
 import '@testing-library/jest-dom'
 ```
 
-- [ ] **Step 8: package.json에 test 스크립트 추가**
+- [x] **Step 8: package.json에 test 스크립트 추가**
 
 `package.json`의 scripts에 추가:
 ```json
@@ -137,7 +137,7 @@ import '@testing-library/jest-dom'
 "test:watch": "vitest"
 ```
 
-- [ ] **Step 9: 커밋**
+- [x] **Step 9: 커밋**
 
 ```bash
 git init
@@ -153,11 +153,11 @@ git commit -m "chore: initial Next.js project setup with Supabase and shadcn/ui"
 - Create: `supabase/migrations/001_initial_schema.sql`
 - Create: `supabase/migrations/002_rls_policies.sql`
 
-- [ ] **Step 1: Supabase 프로젝트 생성**
+- [x] **Step 1: Supabase 프로젝트 생성**
 
 [supabase.com](https://supabase.com)에서 새 프로젝트 생성 후 Project URL과 anon key를 `.env.local`에 입력.
 
-- [ ] **Step 2: 초기 스키마 마이그레이션 파일 작성**
+- [x] **Step 2: 초기 스키마 마이그레이션 파일 작성**
 
 `supabase/migrations/001_initial_schema.sql`:
 
@@ -246,7 +246,7 @@ create trigger on_auth_user_created
   for each row execute function public.handle_new_user();
 ```
 
-- [ ] **Step 3: RLS 정책 파일 작성**
+- [x] **Step 3: RLS 정책 파일 작성**
 
 `supabase/migrations/002_rls_policies.sql`:
 
@@ -303,11 +303,11 @@ create policy "invite: own update" on public.invite_codes
   for update using (auth.uid() = created_by or auth.uid() = used_by);
 ```
 
-- [ ] **Step 4: Supabase SQL Editor에서 마이그레이션 실행**
+- [x] **Step 4: Supabase SQL Editor에서 마이그레이션 실행**
 
 Supabase 대시보드 → SQL Editor → 001_initial_schema.sql 내용 붙여넣고 실행 → 002_rls_policies.sql 순서로 실행.
 
-- [ ] **Step 5: 커밋**
+- [x] **Step 5: 커밋**
 
 ```bash
 git add supabase/
@@ -324,7 +324,7 @@ git commit -m "feat: add Supabase schema migrations and RLS policies"
 - Create: `lib/supabase/types.ts`
 - Create: `lib/constants.ts`
 
-- [ ] **Step 1: DB 타입 정의**
+- [x] **Step 1: DB 타입 정의**
 
 `lib/supabase/types.ts`:
 
@@ -390,7 +390,7 @@ export interface InviteCode {
 }
 ```
 
-- [ ] **Step 2: 브라우저 Supabase 클라이언트**
+- [x] **Step 2: 브라우저 Supabase 클라이언트**
 
 `lib/supabase/client.ts`:
 
@@ -405,7 +405,7 @@ export function createClient() {
 }
 ```
 
-- [ ] **Step 3: 서버 Supabase 클라이언트**
+- [x] **Step 3: 서버 Supabase 클라이언트**
 
 `lib/supabase/server.ts`:
 
@@ -436,7 +436,7 @@ export async function createClient() {
 }
 ```
 
-- [ ] **Step 4: 상수 정의**
+- [x] **Step 4: 상수 정의**
 
 `lib/constants.ts`:
 
@@ -469,7 +469,7 @@ export const ACTIVITY_LABELS: Record<string, string> = {
 }
 ```
 
-- [ ] **Step 5: 커밋**
+- [x] **Step 5: 커밋**
 
 ```bash
 git add lib/
@@ -484,7 +484,7 @@ git commit -m "feat: add Supabase clients and type definitions"
 - Create: `middleware.ts`
 - Create: `app/(main)/layout.tsx`
 
-- [ ] **Step 1: Next.js 미들웨어 작성**
+- [x] **Step 1: Next.js 미들웨어 작성**
 
 `middleware.ts`:
 
@@ -541,7 +541,7 @@ export const config = {
 }
 ```
 
-- [ ] **Step 2: 메인 레이아웃 (네비게이션 포함)**
+- [x] **Step 2: 메인 레이아웃 (네비게이션 포함)**
 
 `app/(main)/layout.tsx`:
 
@@ -592,7 +592,7 @@ export default async function MainLayout({
 }
 ```
 
-- [ ] **Step 3: 커밋**
+- [x] **Step 3: 커밋**
 
 ```bash
 git add middleware.ts app/
@@ -608,7 +608,7 @@ git commit -m "feat: add auth middleware and protected layout with navigation"
 - Create: `components/auth/login-form.tsx`
 - Create: `components/auth/signup-form.tsx`
 
-- [ ] **Step 1: 로그인 폼 컴포넌트**
+- [x] **Step 1: 로그인 폼 컴포넌트**
 
 `components/auth/login-form.tsx`:
 
@@ -679,7 +679,7 @@ export function LoginForm() {
 }
 ```
 
-- [ ] **Step 2: 회원가입 폼 컴포넌트**
+- [x] **Step 2: 회원가입 폼 컴포넌트**
 
 `components/auth/signup-form.tsx`:
 
@@ -803,7 +803,7 @@ export function SignupForm() {
 }
 ```
 
-- [ ] **Step 3: 로그인 페이지**
+- [x] **Step 3: 로그인 페이지**
 
 `app/(auth)/login/page.tsx`:
 
@@ -843,7 +843,7 @@ export default function LoginPage() {
 }
 ```
 
-- [ ] **Step 4: 로컬에서 로그인/회원가입 흐름 테스트**
+- [x] **Step 4: 로컬에서 로그인/회원가입 흐름 테스트**
 
 ```bash
 npm run dev
@@ -857,7 +857,7 @@ insert into invite_codes (code, created_by)
 values ('FAMILY2024', '<admin-user-id>');
 ```
 
-- [ ] **Step 5: 커밋**
+- [x] **Step 5: 커밋**
 
 ```bash
 git add app/ components/auth/
@@ -873,7 +873,7 @@ git commit -m "feat: add login and signup pages with invite code validation"
 - Create: `lib/kakao/books.ts`
 - Create: `__tests__/api/books/search.test.ts`
 
-- [ ] **Step 1: 카카오 API 타입 정의**
+- [x] **Step 1: 카카오 API 타입 정의**
 
 `lib/kakao/books.ts`:
 
@@ -908,7 +908,7 @@ export function kakaoBookToBook(kakao: KakaoBook) {
 }
 ```
 
-- [ ] **Step 2: 실패하는 테스트 작성**
+- [x] **Step 2: 실패하는 테스트 작성**
 
 `__tests__/api/books/search.test.ts`:
 
@@ -974,7 +974,7 @@ describe('GET /api/books/search', () => {
 })
 ```
 
-- [ ] **Step 3: 테스트 실행 (실패 확인)**
+- [x] **Step 3: 테스트 실행 (실패 확인)**
 
 ```bash
 npm test
@@ -982,7 +982,7 @@ npm test
 
 Expected: FAIL — "Cannot find module '@/app/api/books/search/route'"
 
-- [ ] **Step 4: API 라우트 구현**
+- [x] **Step 4: API 라우트 구현**
 
 `app/api/books/search/route.ts`:
 
@@ -1013,7 +1013,7 @@ export async function GET(request: Request) {
 }
 ```
 
-- [ ] **Step 5: 테스트 실행 (통과 확인)**
+- [x] **Step 5: 테스트 실행 (통과 확인)**
 
 ```bash
 npm test
@@ -1021,7 +1021,7 @@ npm test
 
 Expected: PASS — 3 tests pass
 
-- [ ] **Step 6: 커밋**
+- [x] **Step 6: 커밋**
 
 ```bash
 git add app/api/ lib/kakao/ __tests__/
@@ -1036,7 +1036,7 @@ git commit -m "feat: add Kakao Books API proxy route with tests"
 - Create: `app/(main)/search/page.tsx`
 - Create: `components/books/book-search-results.tsx`
 
-- [ ] **Step 1: 책 검색 결과 컴포넌트**
+- [x] **Step 1: 책 검색 결과 컴포넌트**
 
 `components/books/book-search-results.tsx`:
 
@@ -1125,7 +1125,7 @@ export function BookSearchResults({ books }: Props) {
 }
 ```
 
-- [ ] **Step 2: 책 검색 페이지**
+- [x] **Step 2: 책 검색 페이지**
 
 `app/(main)/search/page.tsx`:
 
@@ -1184,7 +1184,7 @@ export default function SearchPage() {
 }
 ```
 
-- [ ] **Step 3: 로컬에서 검색 흐름 테스트**
+- [x] **Step 3: 로컬에서 검색 흐름 테스트**
 
 ```bash
 npm run dev
@@ -1192,7 +1192,7 @@ npm run dev
 
 `http://localhost:3000/search` 접속 → 책 제목 검색 → 결과 카드 확인 → "선택" 클릭 시 `/books/new?bookId=...`로 이동 확인.
 
-- [ ] **Step 4: 커밋**
+- [x] **Step 4: 커밋**
 
 ```bash
 git add app/(main)/search/ components/books/book-search-results.tsx
@@ -1209,7 +1209,7 @@ git commit -m "feat: add book search page with Kakao API integration"
 - Create: `app/(main)/books/new/page.tsx`
 - Create: `app/(main)/books/[id]/edit/page.tsx`
 
-- [ ] **Step 1: 감정 태그 선택 컴포넌트**
+- [x] **Step 1: 감정 태그 선택 컴포넌트**
 
 `components/books/emotion-tag-selector.tsx`:
 
@@ -1249,7 +1249,7 @@ export function EmotionTagSelector({ selected, onChange }: Props) {
 }
 ```
 
-- [ ] **Step 2: 독서 기록 폼 컴포넌트**
+- [x] **Step 2: 독서 기록 폼 컴포넌트**
 
 `components/books/record-form.tsx`:
 
@@ -1428,7 +1428,7 @@ export function RecordForm({ book, existingRecord, userId }: Props) {
 }
 ```
 
-- [ ] **Step 3: 새 기록 페이지**
+- [x] **Step 3: 새 기록 페이지**
 
 `app/(main)/books/new/page.tsx`:
 
@@ -1466,7 +1466,7 @@ export default async function NewRecordPage({ searchParams }: Props) {
 }
 ```
 
-- [ ] **Step 4: 수정 페이지**
+- [x] **Step 4: 수정 페이지**
 
 `app/(main)/books/[id]/edit/page.tsx`:
 
@@ -1503,7 +1503,7 @@ export default async function EditRecordPage({ params }: Props) {
 }
 ```
 
-- [ ] **Step 5: 로컬 테스트**
+- [x] **Step 5: 로컬 테스트**
 
 ```bash
 npm run dev
@@ -1511,7 +1511,7 @@ npm run dev
 
 `/search`에서 책 선택 → `/books/new?bookId=...` 접속 확인 → 상태 선택 + 기대감 작성 + 저장 → `/books/[id]`로 이동 확인.
 
-- [ ] **Step 6: 커밋**
+- [x] **Step 6: 커밋**
 
 ```bash
 git add app/(main)/books/ components/books/
@@ -1526,7 +1526,7 @@ git commit -m "feat: add reading record create/edit form with emotion tags"
 - Create: `components/books/book-card.tsx`
 - Create: `app/(main)/books/page.tsx`
 
-- [ ] **Step 1: 책 카드 컴포넌트**
+- [x] **Step 1: 책 카드 컴포넌트**
 
 `components/books/book-card.tsx`:
 
@@ -1581,7 +1581,7 @@ export function BookCard({ record }: Props) {
 }
 ```
 
-- [ ] **Step 2: 내 독서 목록 페이지**
+- [x] **Step 2: 내 독서 목록 페이지**
 
 `app/(main)/books/page.tsx`:
 
@@ -1645,7 +1645,7 @@ export default async function BooksPage() {
 }
 ```
 
-- [ ] **Step 3: 커밋**
+- [x] **Step 3: 커밋**
 
 ```bash
 git add app/(main)/books/page.tsx components/books/book-card.tsx
@@ -1659,7 +1659,7 @@ git commit -m "feat: add my books list page with status filter tabs"
 **Files:**
 - Create: `app/(main)/books/[id]/page.tsx`
 
-- [ ] **Step 1: 상세 페이지 구현**
+- [x] **Step 1: 상세 페이지 구현**
 
 `app/(main)/books/[id]/page.tsx`:
 
@@ -1778,11 +1778,11 @@ export default async function RecordDetailPage({ params }: Props) {
 }
 ```
 
-- [ ] **Step 2: 로컬에서 상세 페이지 테스트**
+- [x] **Step 2: 로컬에서 상세 페이지 테스트**
 
 기록 저장 후 상세 페이지 접속 → 기대감/소감 섹션, 감정 태그, 수정 버튼 표시 확인.
 
-- [ ] **Step 3: 커밋**
+- [x] **Step 3: 커밋**
 
 ```bash
 git add app/(main)/books/
@@ -1797,7 +1797,7 @@ git commit -m "feat: add reading record detail page with before/after comparison
 - Create: `components/feed/feed-activity-card.tsx`
 - Create: `app/(main)/page.tsx`
 
-- [ ] **Step 1: 피드 활동 카드 컴포넌트**
+- [x] **Step 1: 피드 활동 카드 컴포넌트**
 
 `components/feed/feed-activity-card.tsx`:
 
@@ -1854,7 +1854,7 @@ export function FeedActivityCard({ activity }: Props) {
 }
 ```
 
-- [ ] **Step 2: 홈 피드 페이지**
+- [x] **Step 2: 홈 피드 페이지**
 
 `app/(main)/page.tsx`:
 
@@ -1911,11 +1911,11 @@ export default async function HomePage() {
 }
 ```
 
-- [ ] **Step 3: 로컬 테스트**
+- [x] **Step 3: 로컬 테스트**
 
 홈 접속 → 가족 피드에서 활동 카드 확인 → 카드 클릭 시 상세 이동 확인.
 
-- [ ] **Step 4: 커밋**
+- [x] **Step 4: 커밋**
 
 ```bash
 git add app/(main)/page.tsx components/feed/
@@ -1930,7 +1930,7 @@ git commit -m "feat: add family feed home page with activity cards"
 - Create: `app/(main)/family/page.tsx`
 - Create: `app/(main)/profile/page.tsx`
 
-- [ ] **Step 1: 가족 페이지**
+- [x] **Step 1: 가족 페이지**
 
 `app/(main)/family/page.tsx`:
 
@@ -1995,7 +1995,7 @@ export default async function FamilyPage() {
 }
 ```
 
-- [ ] **Step 2: 프로필 페이지**
+- [x] **Step 2: 프로필 페이지**
 
 `app/(main)/profile/page.tsx`:
 
@@ -2112,12 +2112,12 @@ import { LogoutButton } from '@/components/auth/logout-button'
 // SignOutButton 함수 제거하고 <LogoutButton /> 사용
 ```
 
-- [ ] **Step 3: 로컬 테스트**
+- [x] **Step 3: 로컬 테스트**
 
 `/family` → 가족 멤버 목록 + 통계 확인  
 `/profile` → 프로필 + 통계 + 로그아웃 버튼 확인
 
-- [ ] **Step 4: 커밋**
+- [x] **Step 4: 커밋**
 
 ```bash
 git add app/(main)/family/ app/(main)/profile/ components/auth/logout-button.tsx
@@ -2131,7 +2131,7 @@ git commit -m "feat: add family members page and user profile page"
 **Files:**
 - Modify: `next.config.ts` (이미지 도메인 설정)
 
-- [ ] **Step 1: next.config.ts 이미지 도메인 허용**
+- [x] **Step 1: next.config.ts 이미지 도메인 허용**
 
 `next.config.ts`:
 
@@ -2156,7 +2156,7 @@ const nextConfig: NextConfig = {
 export default nextConfig
 ```
 
-- [ ] **Step 2: Vercel 프로젝트 생성 및 환경변수 설정**
+- [x] **Step 2: Vercel 프로젝트 생성 및 환경변수 설정**
 
 1. [vercel.com](https://vercel.com)에서 GitHub 저장소 import
 2. Environment Variables에 추가:
@@ -2164,7 +2164,7 @@ export default nextConfig
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `KAKAO_REST_API_KEY`
 
-- [ ] **Step 3: 배포**
+- [x] **Step 3: 배포**
 
 ```bash
 git add next.config.ts

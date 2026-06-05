@@ -3,13 +3,7 @@ import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import type { ReadingRecord } from '@/lib/supabase/types'
-import { STATUS_LABELS } from '@/lib/constants'
-
-const STATUS_VARIANT = {
-  reading: 'default',
-  completed: 'secondary',
-  dropped: 'outline',
-} as const
+import { STATUS_LABELS, STATUS_BADGE } from '@/lib/constants'
 
 interface Props {
   record: ReadingRecord & { book: { title: string; author: string; cover_image_url: string | null } }
@@ -33,7 +27,7 @@ export function BookCard({ record }: Props) {
             <h3 className="font-medium text-sm leading-tight line-clamp-2">{record.book.title}</h3>
             <p className="text-xs text-muted-foreground mt-1">{record.book.author}</p>
             <div className="flex items-center gap-2 mt-2">
-              <Badge variant={STATUS_VARIANT[record.status]} className="text-xs">
+              <Badge variant="outline" className={`text-xs ${STATUS_BADGE[record.status] ?? ''}`}>
                 {STATUS_LABELS[record.status]}
               </Badge>
               {record.star_rating && (

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import type { FeedActivity } from '@/lib/supabase/types'
-import { ACTIVITY_LABELS } from '@/lib/constants'
+import { ACTIVITY_LABELS, ACTIVITY_BADGE } from '@/lib/constants'
 
 interface Props {
   activity: FeedActivity
@@ -34,7 +34,7 @@ export function FeedActivityCard({ activity }: Props) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-sm font-medium">{user.nickname}</span>
-              <Badge variant="outline" className="text-xs">{activityLabel}</Badge>
+              <Badge variant="outline" className={`text-xs ${ACTIVITY_BADGE[activity.activity_type] ?? ''}`}>{activityLabel}</Badge>
             </div>
             <p className="text-sm font-medium line-clamp-1">{book.title}</p>
             <p className="text-xs text-muted-foreground">{book.author}</p>
