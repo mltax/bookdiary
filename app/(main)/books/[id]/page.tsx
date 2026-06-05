@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { STATUS_LABELS } from '@/lib/constants'
+import { DeleteRecordButton } from '@/components/books/delete-record-button'
 
 interface Props {
   params: Promise<{ id: string }>
@@ -101,11 +102,14 @@ export default async function RecordDetailPage({ params }: Props) {
         {record.finished_at && <p>완료일: {record.finished_at}</p>}
       </div>
 
-      {/* 수정 버튼 (본인만) */}
+      {/* 수정 / 삭제 (본인만) */}
       {isOwner && (
-        <Button variant="outline" className="w-full" nativeButton={false} render={<Link href={`/books/${id}/edit`} />}>
-          기록 수정
-        </Button>
+        <div className="space-y-2">
+          <Button variant="outline" className="w-full" nativeButton={false} render={<Link href={`/books/${id}/edit`} />}>
+            기록 수정
+          </Button>
+          <DeleteRecordButton recordId={id} />
+        </div>
       )}
     </div>
   )
