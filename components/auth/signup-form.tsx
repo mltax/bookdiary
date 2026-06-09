@@ -12,6 +12,7 @@ export function SignupForm() {
   const [nickname, setNickname] = useState('')
   const [inviteCode, setInviteCode] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [info, setInfo] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
@@ -19,47 +20,54 @@ export function SignupForm() {
     e.preventDefault()
     setLoading(true)
     setError(null)
+    setInfo(null)
 
     const supabase = createClient()
+    const code = inviteCode.trim()
 
-    // 초대 코드 검증
-    const { data: invite } = await supabase
-      .from('invite_codes')
-      .select('id')
-      .eq('code', inviteCode)
-      .is('used_by', null)
-      .single()
+    // 초대 코드 사전 검증 (anon이 호출 가능한 SECURITY DEFINER RPC).
+    // 실제 검증/소비는 handle_new_user 트리거가 가입 시 원자적으로 처리한다.
+    const { data: isValid, error: rpcError } = await supabase.rpc('is_invite_valid', {
+      p_code: code,
+    })
 
-    if (!invite) {
+    if (rpcError) {
+      setError('초대 코드를 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.')
+      setLoading(false)
+      return
+    }
+    if (!isValid) {
       setError('유효하지 않은 초대 코드입니다.')
       setLoading(false)
       return
     }
 
-    // 회원가입
+    // 회원가입 — 닉네임/초대코드는 metadata로 넘기고, 트리거가 users row 생성과
+    // 초대 코드 소비를 함께 처리한다. (가입 후 별도 클라이언트 업데이트 불필요)
     const { data, error: signupError } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { nickname } },
+      options: { data: { nickname: nickname.trim(), invite_code: code } },
     })
 
     if (signupError || !data.user) {
-      setError(signupError?.message ?? '회원가입에 실패했습니다.')
+      // 트리거가 잘못된 초대 코드를 막으면 DB 오류로 표면화된다.
+      const message = signupError?.message ?? ''
+      setError(
+        /invite/i.test(message) || /Database error/i.test(message)
+          ? '유효하지 않은 초대 코드입니다.'
+          : message || '회원가입에 실패했습니다.'
+      )
       setLoading(false)
       return
     }
 
-    // 닉네임 업데이트 (handle_new_user 트리거가 먼저 생성한 row 업데이트)
-    await supabase
-      .from('users')
-      .update({ nickname })
-      .eq('id', data.user.id)
-
-    // 초대 코드 사용 처리
-    await supabase
-      .from('invite_codes')
-      .update({ used_by: data.user.id, used_at: new Date().toISOString() })
-      .eq('id', invite.id)
+    // 이메일 확인이 켜져 있으면 세션이 없다 → 메일 인증 안내.
+    if (!data.session) {
+      setInfo('가입 신청이 완료되었습니다. 이메일을 확인해 인증을 마친 뒤 로그인해 주세요.')
+      setLoading(false)
+      return
+    }
 
     router.push('/')
     router.refresh()
@@ -109,7 +117,8 @@ export function SignupForm() {
         />
       </div>
       {error && <p className="text-sm text-destructive">{error}</p>}
-      <Button type="submit" className="w-full" disabled={loading}>
+      {info && <p className="text-sm text-primary">{info}</p>}
+      <Button type="submit" className="w-full" disabled={loading || !!info}>
         {loading ? '가입 중...' : '가입하기'}
       </Button>
     </form>
