@@ -25,13 +25,16 @@ export function RecordForm({ book, existingRecord, userId }: Props) {
   const [emotionTags, setEmotionTags] = useState<string[]>(existingRecord?.emotion_tags ?? [])
   const [starRating, setStarRating] = useState<number>(existingRecord?.star_rating ?? 0)
   const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
   const isFinished = status === 'completed' || status === 'dropped'
+  const today = new Date().toISOString().split('T')[0]
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
+    setError(null)
     const supabase = createClient()
 
     const payload = {
@@ -42,8 +45,10 @@ export function RecordForm({ book, existingRecord, userId }: Props) {
       actual_feeling: isFinished ? (actualFeeling || null) : null,
       emotion_tags: isFinished ? emotionTags : [],
       star_rating: status === 'completed' && starRating > 0 ? starRating : null,
-      started_at: new Date().toISOString().split('T')[0],
-      finished_at: isFinished ? new Date().toISOString().split('T')[0] : null,
+      // 최초 시작일은 보존하고, 새로 기록할 때만 오늘 날짜로 설정한다.
+      started_at: existingRecord?.started_at ?? today,
+      // 이미 완료/포기한 기록이면 기존 완료일을 유지한다.
+      finished_at: isFinished ? (existingRecord?.finished_at ?? today) : null,
     }
 
     let recordId: string
@@ -55,7 +60,11 @@ export function RecordForm({ book, existingRecord, userId }: Props) {
         .eq('id', existingRecord.id)
         .select('id')
         .single()
-      if (error || !data) { setSaving(false); return }
+      if (error || !data) {
+        setError('기록 저장에 실패했습니다. 다시 시도해 주세요.')
+        setSaving(false)
+        return
+      }
       recordId = data.id
     } else {
       const { data, error } = await supabase
@@ -63,7 +72,11 @@ export function RecordForm({ book, existingRecord, userId }: Props) {
         .insert(payload)
         .select('id')
         .single()
-      if (error || !data) { setSaving(false); return }
+      if (error || !data) {
+        setError('기록 저장에 실패했습니다. 다시 시도해 주세요.')
+        setSaving(false)
+        return
+      }
       recordId = data.id
     }
 
@@ -163,6 +176,8 @@ export function RecordForm({ book, existingRecord, userId }: Props) {
           </div>
         </>
       )}
+
+      {error && <p className="text-sm text-destructive">{error}</p>}
 
       <Button type="submit" className="w-full" disabled={saving}>
         {saving ? '저장 중...' : existingRecord ? '수정하기' : '기록 저장'}

@@ -13,10 +13,12 @@ interface Props {
 
 export function BookSearchResults({ books }: Props) {
   const [saving, setSaving] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
   async function handleSelect(kakaoBook: KakaoBook) {
     setSaving(kakaoBook.isbn)
+    setError(null)
     const supabase = createClient()
     const bookData = kakaoBookToBook(kakaoBook)
 
@@ -28,7 +30,7 @@ export function BookSearchResults({ books }: Props) {
         .upsert(bookData, { onConflict: 'isbn' })
         .select('id')
         .single()
-      if (error || !data) { setSaving(null); return }
+      if (error || !data) { setError('책을 저장하지 못했습니다. 다시 시도해 주세요.'); setSaving(null); return }
       bookId = data.id
     } else {
       const { data, error } = await supabase
@@ -36,7 +38,7 @@ export function BookSearchResults({ books }: Props) {
         .insert(bookData)
         .select('id')
         .single()
-      if (error || !data) { setSaving(null); return }
+      if (error || !data) { setError('책을 저장하지 못했습니다. 다시 시도해 주세요.'); setSaving(null); return }
       bookId = data.id
     }
 
@@ -49,6 +51,7 @@ export function BookSearchResults({ books }: Props) {
 
   return (
     <div className="space-y-3">
+      {error && <p className="text-sm text-destructive">{error}</p>}
       {books.map((book) => (
         <Card key={book.isbn || book.title} className="cursor-pointer hover:shadow-md transition-shadow">
           <CardContent className="flex gap-3 p-3">
