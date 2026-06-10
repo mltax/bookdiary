@@ -6,8 +6,12 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
+// 가족 계정은 단순 아이디(dad/mom/son)로 로그인한다. Supabase Auth는 이메일을
+// 요구하므로 입력한 아이디에 내부 도메인을 붙여 이메일 형태로 변환한다.
+const ID_DOMAIN = '@example.com'
+
 export function LoginForm() {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -18,11 +22,14 @@ export function LoginForm() {
     setLoading(true)
     setError(null)
 
+    const id = username.trim().toLowerCase()
+    const email = id.includes('@') ? id : `${id}${ID_DOMAIN}`
+
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
-      setError('이메일 또는 비밀번호가 올바르지 않습니다.')
+      setError('아이디 또는 비밀번호가 올바르지 않습니다.')
       setLoading(false)
       return
     }
@@ -34,14 +41,16 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="email">이메일</Label>
+        <Label htmlFor="username">아이디</Label>
         <Input
-          id="email"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+          id="username"
+          type="text"
+          autoCapitalize="none"
+          autoCorrect="off"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
           required
-          placeholder="email@example.com"
+          placeholder="dad / mom / son"
         />
       </div>
       <div className="space-y-2">
