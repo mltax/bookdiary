@@ -25,7 +25,11 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  // Verify the JWT locally via the asymmetric signing key (ES256) instead of
+  // calling the Auth server on every request — `getClaims()` uses the cached
+  // JWKS + WebCrypto, eliminating a network round-trip per navigation.
+  const { data } = await supabase.auth.getClaims()
+  const user = data?.claims ?? null
 
   const isAuthPage = request.nextUrl.pathname.startsWith('/login')
   const isApiRoute = request.nextUrl.pathname.startsWith('/api')

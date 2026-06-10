@@ -1,5 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, getCachedUser } from '@/lib/supabase/server'
 import { RecordForm } from '@/components/books/record-form'
 
 interface Props {
@@ -10,10 +10,10 @@ export default async function NewRecordPage({ searchParams }: Props) {
   const { bookId } = await searchParams
   if (!bookId) redirect('/search')
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCachedUser()
   if (!user) redirect('/login')
 
+  const supabase = await createClient()
   const { data: book } = await supabase
     .from('books')
     .select('*')

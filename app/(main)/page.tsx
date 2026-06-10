@@ -1,13 +1,14 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient, getCachedUser } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { FeedActivityCard } from '@/components/feed/feed-activity-card'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export default async function HomePage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCachedUser()
   if (!user) redirect('/login')
+
+  const supabase = await createClient()
 
   const { data: activities } = await supabase
     .from('feed_activities')

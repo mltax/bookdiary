@@ -1,5 +1,5 @@
 import { notFound, redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, getCachedUser } from '@/lib/supabase/server'
 import { RecordForm } from '@/components/books/record-form'
 
 interface Props {
@@ -8,10 +8,10 @@ interface Props {
 
 export default async function EditRecordPage({ params }: Props) {
   const { id } = await params
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCachedUser()
   if (!user) redirect('/login')
 
+  const supabase = await createClient()
   const { data: record } = await supabase
     .from('reading_records')
     .select('*, book:books(*)')
