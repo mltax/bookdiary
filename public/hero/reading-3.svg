@@ -1,0 +1,30 @@
+<svg width="960" height="540" viewBox="0 0 960 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="960" y2="540" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EAFBE8"/>
+      <stop offset="0.52" stop-color="#DBF7E1"/>
+      <stop offset="1" stop-color="#D2F3D8"/>
+    </linearGradient>
+    <linearGradient id="plant3" x1="150" y1="420" x2="268" y2="160" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#49B37D"/>
+      <stop offset="1" stop-color="#77D09F"/>
+    </linearGradient>
+    <linearGradient id="book3" x1="344" y1="132" x2="676" y2="404" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3CA9B6"/>
+      <stop offset="1" stop-color="#4F8FD8"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" rx="44" fill="url(#bg3)"/>
+  <rect x="294" y="130" width="372" height="274" rx="34" fill="url(#book3)"/>
+  <rect x="320" y="154" width="320" height="226" rx="24" fill="#F8FFFC"/>
+  <path d="M368 188C368 181.373 373.373 176 380 176H584C590.627 176 596 181.373 596 188V188C596 194.627 590.627 200 584 200H380C373.373 200 368 194.627 368 188V188Z" fill="#BCE8E3"/>
+  <path d="M368 220C368 213.373 373.373 208 380 208H554C560.627 208 566 213.373 566 220V220C566 226.627 560.627 232 554 232H380C373.373 232 368 226.627 368 220V220Z" fill="#A9D8EE"/>
+  <path d="M368 252C368 245.373 373.373 240 380 240H524C530.627 240 536 245.373 536 252V252C536 258.627 530.627 264 524 264H380C373.373 264 368 258.627 368 252V252Z" fill="#9AC9F0"/>
+  <path d="M198 404C198 333.307 255.307 276 326 276V404H198Z" fill="#88D8AD" fill-opacity="0.8"/>
+  <path d="M162 404C162 337.726 215.726 284 282 284V404H162Z" fill="url(#plant3)"/>
+  <path d="M122 404C122 349.324 166.324 305 221 305V404H122Z" fill="#4CBF7E"/>
+  <path d="M104 404H304V424C304 435.046 295.046 444 284 444H124C112.954 444 104 435.046 104 424V404Z" fill="#7ACB98"/>
+  <circle cx="776" cy="188" r="66" fill="#ECFFF3"/>
+  <circle cx="774" cy="188" r="28" fill="#C7F5D7"/>
+  <circle cx="774" cy="188" r="8" fill="#76CF98"/>
+</svg>
